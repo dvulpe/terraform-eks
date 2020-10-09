@@ -1,0 +1,11 @@
+apiVersion: v1
+appVersion: 5.0.1
+description: Podinfo Helm chart for Kubernetes
+home: https://github.com/stefanprodan/podinfo
+maintainers:
+- email: stefanprodan@users.noreply.github.com
+  name: stefanprodan
+name: podinfo
+sources:
+- https://github.com/stefanprodan/podinfo
+version: 5.0.1

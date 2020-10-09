@@ -1,0 +1,20 @@
+[settings.aws]
+region = "eu-west-1"
+
+[settings.kubernetes]
+cluster-name = "${cluster_name}"
+cluster-certificate = "${b64_cluster_ca}"
+api-server = "${endpoint}"
+
+[settings.kubernetes.node-labels]
+"node.kubernetes.io/role" = "${node_role}"
+
+%{ if taints != [] }
+[settings.kubernetes.node-taints]
+%{ for taint in taints }
+"${taint.key}" = "${taint.value}"
+%{ endfor }
+%{ endif }
+
+[settings.host-containers.admin]
+enabled = false
