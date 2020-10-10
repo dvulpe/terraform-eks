@@ -29,6 +29,14 @@ resource "aws_iam_role_policy_attachment" "attach" {
   policy_arn = each.value
 }
 
+resource "aws_kms_key" "secret_encryption_key" {
+  description         = "Key used by EKS to implement envelope encryption for secrets"
+  enable_key_rotation = true
+  tags = merge(var.tags, {
+    Name = "${var.cluster_name}-secrets"
+  })
+}
+
 resource "aws_eks_cluster" "eks" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_cluster_role.arn
@@ -40,11 +48,23 @@ resource "aws_eks_cluster" "eks" {
     security_group_ids = [
       var.security_groups.cluster_sg_id,
     ]
+    public_access_cidrs = [
+      "0.0.0.0/0",
+    ]
   }
   depends_on = [
     aws_iam_role_policy_attachment.attach,
     aws_cloudwatch_log_group.eks_logs,
   ]
+
+  encryption_config {
+    resources = [
+      "secrets",
+    ]
+    provider {
+      key_arn = aws_kms_key.secret_encryption_key.arn
+    }
+  }
 
   enabled_cluster_log_types = [
     "api", "audit", "authenticator", "controllerManager", "scheduler",
