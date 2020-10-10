@@ -18,6 +18,10 @@ resource "aws_launch_configuration" "node" {
   }
 }
 
+data "aws_availability_zone" "zone" {
+  name = var.zone
+}
+
 locals {
   user_data = templatefile("${path.module}/files/bottlerocket.toml", {
     cluster_name      = var.cluster.name
@@ -26,6 +30,7 @@ locals {
     node_role         = var.node_role,
     availability_zone = var.zone
     taints            = var.taints
+    region            = data.aws_availability_zone.zone.region
   })
 }
 

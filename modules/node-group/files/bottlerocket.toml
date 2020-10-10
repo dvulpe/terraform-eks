@@ -1,5 +1,5 @@
 [settings.aws]
-region = "eu-west-1"
+region = "${region}"
 
 [settings.kubernetes]
 cluster-name = "${cluster_name}"
