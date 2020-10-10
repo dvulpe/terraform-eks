@@ -121,10 +121,14 @@ resource "kubernetes_config_map" "aws_auth" {
   }
 }
 
+data "tls_certificate" "eks_oidc_cert" {
+  url = aws_eks_cluster.eks.identity.0.oidc.0.issuer
+}
+
 resource "aws_iam_openid_connect_provider" "eks_oidc" {
   client_id_list = ["sts.amazonaws.com"]
   thumbprint_list = [
-    "9e99a48a9960b14926bb7f3b02e22da2b0ab7280",
+    data.tls_certificate.eks_oidc_cert.certificates.0.sha1_fingerprint,
   ]
   url = aws_eks_cluster.eks.identity.0.oidc.0.issuer
 }
