@@ -17,6 +17,10 @@ locals {
     for subnet in data.aws_subnet.subnet :
     subnet.availability_zone => subnet.id
   }
+  node_groups = [
+    module.zonal_workers,
+    module.zonal_monitoring,
+  ]
 }
 
 module "zonal_workers" {

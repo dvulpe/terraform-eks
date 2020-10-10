@@ -1,10 +1,7 @@
 output "asg_arns" {
-  value = concat([
-    for asg in module.zonal_workers :
-    asg.asg_arn
-    ],
-    [for asg in module.zonal_monitoring :
-      asg.asg_arn
-    ],
-  )
+  value = flatten([
+    for node_group in local.node_groups : [
+      for asg in node_group :
+    asg.asg_arn]
+  ])
 }
