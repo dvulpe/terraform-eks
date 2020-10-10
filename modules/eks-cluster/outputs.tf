@@ -9,3 +9,7 @@ output "worker_role_name" {
 output "cluster_autoscaler_role_arn" {
   value = aws_iam_role.cluster_autoscaler.arn
 }
+
+output "csi_role_arn" {
+  value = aws_iam_role.csi.arn
+}

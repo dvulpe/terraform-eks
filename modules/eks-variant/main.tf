@@ -21,7 +21,6 @@ data "aws_subnet_ids" "private" {
   }
 }
 
-
 data "aws_lb_target_group" "ingress" {
   name = "k8s-variants-${var.variant}-ingress"
 }
@@ -63,4 +62,5 @@ module "cluster-workloads" {
   cluster_name        = module.cluster.cluster.name
   region              = var.region
   autoscaler_role_arn = module.cluster.cluster_autoscaler_role_arn
+  csi_role_arn        = module.cluster.csi_role_arn
 }
