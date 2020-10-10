@@ -6,13 +6,13 @@ resource "aws_launch_configuration" "node" {
   security_groups      = var.security_group_ids
   spot_price           = "0.5"
   user_data            = local.user_data
-  
+
   ebs_block_device {
     device_name = "/dev/xvdb"
     volume_size = 50
     volume_type = "gp2"
   }
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -35,18 +35,18 @@ resource "aws_autoscaling_group" "nodegroup" {
   desired_capacity     = var.desired_size
   vpc_zone_identifier  = [var.subnet]
   launch_configuration = aws_launch_configuration.node.id
-  
+
   name = var.name
-  
+
   target_group_arns = var.target_group_arns
-  
+
   lifecycle {
-    ignore_changes        = [
+    ignore_changes = [
       desired_capacity,
     ]
     create_before_destroy = true
   }
-  
+
   tag {
     key                 = "kubernetes.io/cluster/${var.cluster.name}"
     value               = "owned"
@@ -77,7 +77,7 @@ resource "aws_autoscaling_group" "nodegroup" {
     value               = var.name
     propagate_at_launch = true
   }
-  
+
   dynamic "tag" {
     for_each = var.tags
     content {

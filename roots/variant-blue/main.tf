@@ -4,7 +4,7 @@ module "variant" {
   name     = "eks-demo"
   variant  = "blue"
   region   = local.region
-  tags     = {
+  tags = {
     Environment = "k8s-variants"
   }
 }

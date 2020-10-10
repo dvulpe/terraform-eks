@@ -45,8 +45,8 @@ variable "subnet" {
 
 variable "cluster" {
   type = object({
-    name                  = string
-    endpoint              = string
+    name     = string
+    endpoint = string
     certificate_authority = list(object({
       data = string
     }))
@@ -62,7 +62,7 @@ variable "name" {
 }
 
 variable "taints" {
-  type    = list(object({
+  type = list(object({
     key   = string
     value = string
   }))

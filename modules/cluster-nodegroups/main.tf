@@ -14,8 +14,8 @@ resource "aws_iam_instance_profile" "instance_profile" {
 
 locals {
   zone_name_to_subnet_id = {
-  for subnet in data.aws_subnet.subnet:
-  subnet.availability_zone => subnet.id
+    for subnet in data.aws_subnet.subnet :
+    subnet.availability_zone => subnet.id
   }
 }
 
@@ -33,8 +33,8 @@ module "zonal_workers" {
   tags                 = var.tags
   target_group_arns    = var.target_group_arns
   zone                 = each.key
-  
-  
+
+
   min_size     = var.min_size
   desired_size = var.desired_size
   max_size     = var.max_size
@@ -54,12 +54,12 @@ module "zonal_monitoring" {
   tags                 = var.tags
   target_group_arns    = var.target_group_arns
   zone                 = each.key
-  taints               = [{
+  taints = [{
     key   = "node.kubernetes.io/role"
     value = "monitoring:NoSchedule"
   }]
-  
-  
+
+
   min_size     = var.min_size
   desired_size = var.desired_size
   max_size     = var.max_size

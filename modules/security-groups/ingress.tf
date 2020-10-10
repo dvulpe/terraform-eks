@@ -14,19 +14,19 @@ resource "aws_security_group" "ingress_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port       = 30443
-    protocol        = "tcp"
-    to_port         = 30443
-    description     = "https port"
+    from_port   = 30443
+    protocol    = "tcp"
+    to_port     = 30443
+    description = "https port"
     security_groups = [
       aws_security_group.worker_sg.id,
     ]
   }
   egress {
-    from_port       = 32254
-    protocol        = "tcp"
-    to_port         = 32254
-    description     = "healthcheck port"
+    from_port   = 32254
+    protocol    = "tcp"
+    to_port     = 32254
+    description = "healthcheck port"
     security_groups = [
       aws_security_group.worker_sg.id,
     ]
@@ -37,5 +37,5 @@ resource "aws_security_group" "ingress_sg" {
     to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags   = var.tags
+  tags = var.tags
 }

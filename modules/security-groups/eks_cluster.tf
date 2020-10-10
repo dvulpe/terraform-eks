@@ -1,7 +1,7 @@
 resource "aws_security_group" "cluster_sg" {
   name   = "${var.prefix}-cluster-sg"
   vpc_id = var.vpc.vpc_id
-  tags   = merge({
+  tags = merge({
     Name = "cluster-sg"
   }, var.tags)
 }

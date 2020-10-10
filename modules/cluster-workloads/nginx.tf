@@ -1,30 +1,30 @@
 locals {
   nginx_ingress_values = {
     controller = {
-      config         = {
+      config = {
         "use-forwarded-headers" = "true"
       }
-      kind           = "DaemonSet"
+      kind = "DaemonSet"
       podAnnotations = {
         "prometheus.io/scrape" = "true"
         "prometheus.io/port"   = "10254"
       }
-      nodeSelector   = {
+      nodeSelector = {
         "node.kubernetes.io/role" = "workers"
       }
-      service        = {
+      service = {
         enableHttp            = "false"
         externalTrafficPolicy = "Local"
         type                  = "NodePort"
-        nodePorts             = {
+        nodePorts = {
           https = "30443"
-          tcp   = {
+          tcp = {
             "10254" = "32254"
           }
         }
       }
     }
-    tcp        = {
+    tcp = {
       "10254" = "32254"
     }
   }

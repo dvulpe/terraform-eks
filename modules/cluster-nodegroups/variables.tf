@@ -8,9 +8,9 @@ variable "subnet_ids" {
 
 variable "cluster" {
   type = object({
-    name                  = string
-    endpoint              = string
-    version               = string
+    name     = string
+    endpoint = string
+    version  = string
     certificate_authority = list(object({
       data = string
     }))

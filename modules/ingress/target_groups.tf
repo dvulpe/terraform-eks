@@ -1,8 +1,8 @@
 resource "aws_lb_target_group" "ingress_variant-blue" {
-  name                 = "${var.name}-blue-ingress"
-  protocol             = "HTTPS"
-  port                 = 30443
-  target_type          = "instance"
+  name        = "${var.name}-blue-ingress"
+  protocol    = "HTTPS"
+  port        = 30443
+  target_type = "instance"
   health_check {
     enabled             = true
     interval            = 10
@@ -21,17 +21,17 @@ resource "aws_lb_target_group" "ingress_variant-blue" {
     enabled         = false
     cookie_duration = 300
   }
-  tags                 = var.tags
+  tags = var.tags
   lifecycle {
     create_before_destroy = true
   }
 }
 
 resource "aws_lb_target_group" "ingress_variant-green" {
-  name                 = "${var.name}-green-ingress"
-  protocol             = "HTTPS"
-  port                 = 30443
-  target_type          = "instance"
+  name        = "${var.name}-green-ingress"
+  protocol    = "HTTPS"
+  port        = 30443
+  target_type = "instance"
   health_check {
     enabled             = true
     interval            = 10
@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "ingress_variant-green" {
     enabled         = false
     cookie_duration = 300
   }
-  tags                 = var.tags
+  tags = var.tags
   lifecycle {
     create_before_destroy = true
   }

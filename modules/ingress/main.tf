@@ -2,56 +2,56 @@ data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "bucket_policy" {
   statement {
-    effect    = "Allow"
+    effect = "Allow"
     principals {
       identifiers = [
         "arn:aws:iam::156460612806:root",
         "arn:aws:iam::652711504416:root",
       ]
-      type        = "AWS"
+      type = "AWS"
     }
     resources = [
       "${aws_s3_bucket.access_logs.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
     ]
-    actions   = [
+    actions = [
       "s3:PutObject",
     ]
   }
-  
+
   statement {
-    effect    = "Allow"
+    effect = "Allow"
     principals {
       identifiers = [
         "delivery.logs.amazonaws.com",
       ]
-      type        = "Service"
+      type = "Service"
     }
     resources = [
       "${aws_s3_bucket.access_logs.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
     ]
-    actions   = [
+    actions = [
       "s3:PutObject",
     ]
     condition {
-      test     = "StringEquals"
-      values   = [
+      test = "StringEquals"
+      values = [
         "bucket-owner-full-control",
       ]
       variable = "s3:x-amz-acl"
     }
   }
   statement {
-    effect    = "Allow"
+    effect = "Allow"
     principals {
       identifiers = [
         "delivery.logs.amazonaws.com",
       ]
-      type        = "Service"
+      type = "Service"
     }
     resources = [
       aws_s3_bucket.access_logs.arn,
     ]
-    actions   = [
+    actions = [
       "s3:GetBucketAcl",
     ]
   }
@@ -69,9 +69,9 @@ resource "random_pet" "suffix" {
 resource "aws_s3_bucket" "access_logs" {
   bucket = "ingress-access-logs-${random_pet.suffix.id}"
   tags   = var.tags
-  
+
   force_destroy = true
-  
+
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -86,17 +86,17 @@ resource "aws_lb" "alb" {
   subnets            = var.vpc.public_subnets
   enable_http2       = true
   load_balancer_type = "application"
-  
+
   access_logs {
     bucket  = aws_s3_bucket.access_logs.bucket
     enabled = true
   }
-  
+
   security_groups = [
     var.security_groups.ingress_sg_id,
   ]
-  tags            = var.tags
-  
+  tags = var.tags
+
   depends_on = [
     aws_s3_bucket.access_logs,
   ]
@@ -107,7 +107,7 @@ resource "aws_lb_listener" "ingress_http" {
   port              = 80
   default_action {
     type = "forward"
-  
+
     forward {
       stickiness {
         duration = 60

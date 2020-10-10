@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "eks_trust" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     principals {
       type        = "Service"
       identifiers = ["eks.amazonaws.com"]
@@ -30,14 +30,14 @@ resource "aws_iam_role_policy_attachment" "attach" {
 }
 
 resource "aws_eks_cluster" "eks" {
-  name       = var.cluster_name
-  role_arn   = aws_iam_role.eks_cluster_role.arn
-  version    = var.cluster_version
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = var.cluster_version
   vpc_config {
     subnet_ids              = var.vpc.private_subnets
     endpoint_private_access = true
     endpoint_public_access  = true
-    security_group_ids      = [
+    security_group_ids = [
       var.security_groups.cluster_sg_id,
     ]
   }
@@ -45,11 +45,11 @@ resource "aws_eks_cluster" "eks" {
     aws_iam_role_policy_attachment.attach,
     aws_cloudwatch_log_group.eks_logs,
   ]
-  
+
   enabled_cluster_log_types = [
     "api", "audit", "authenticator", "controllerManager", "scheduler",
   ]
-  
+
   tags = var.tags
 }
 
@@ -61,7 +61,7 @@ resource "aws_cloudwatch_log_group" "eks_logs" {
 
 data "aws_iam_policy_document" "ec2_trust" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     principals {
       type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
@@ -99,7 +99,7 @@ locals {
     {
       rolearn  = aws_iam_role.worker_role.arn
       username = "system:node:{{EC2PrivateDNSName}}"
-      groups   = [
+      groups = [
         "system:nodes",
         "system:bootstrappers",
       ]
@@ -113,7 +113,7 @@ resource "kubernetes_config_map" "aws_auth" {
     name      = "aws-auth"
     namespace = "kube-system"
   }
-  
+
   data = {
     mapRoles    = yamlencode(local.worker_roles)
     mapUsers    = yamlencode("")
@@ -122,24 +122,24 @@ resource "kubernetes_config_map" "aws_auth" {
 }
 
 resource "aws_iam_openid_connect_provider" "eks_oidc" {
-  client_id_list  = ["sts.amazonaws.com"]
+  client_id_list = ["sts.amazonaws.com"]
   thumbprint_list = [
     "9e99a48a9960b14926bb7f3b02e22da2b0ab7280",
   ]
-  url             = aws_eks_cluster.eks.identity.0.oidc.0.issuer
+  url = aws_eks_cluster.eks.identity.0.oidc.0.issuer
 }
 
 data "aws_iam_policy_document" "cluster_autoscaler" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
-    
+
     condition {
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.eks_oidc.url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:cluster-autoscaler"]
     }
-    
+
     principals {
       identifiers = [aws_iam_openid_connect_provider.eks_oidc.arn]
       type        = "Federated"
@@ -155,7 +155,7 @@ resource "aws_iam_role" "cluster_autoscaler" {
 
 data "aws_iam_policy_document" "autoscaling" {
   statement {
-    actions   = [
+    actions = [
       "autoscaling:DescribeAutoScalingGroups",
       "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
@@ -166,7 +166,7 @@ data "aws_iam_policy_document" "autoscaling" {
     effect    = "Allow"
   }
   statement {
-    actions   = [
+    actions = [
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup",
     ]
