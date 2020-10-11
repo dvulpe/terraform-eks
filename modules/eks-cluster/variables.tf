@@ -11,10 +11,6 @@ variable "tags" {
   type = map(string)
 }
 
-variable "asg_arns" {
-  type = list(string)
-}
-
 variable "vpc" {
   type = object({
     vpc_id          = string

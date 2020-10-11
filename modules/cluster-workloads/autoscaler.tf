@@ -1,12 +1,15 @@
 variable "autoscaler_role_arn" {
   type = string
 }
+
 variable "region" {
   type = string
 }
+
 variable "cluster_name" {
   type = string
 }
+
 locals {
   cluster_autoscaler_values = {
 

@@ -6,7 +6,3 @@ provider "aws" {
   region = local.region
 }
 
-terraform {
-  backend "local" {
-  }
-}

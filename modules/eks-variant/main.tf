@@ -28,7 +28,6 @@ data "aws_lb_target_group" "ingress" {
 module "cluster" {
   source       = "../eks-cluster"
   cluster_name = "${var.name}-${var.variant}"
-  asg_arns     = module.nodes.asg_arns
   security_groups = {
     cluster_sg_id = data.aws_security_group.cluster_sg.id
   }
@@ -63,4 +62,7 @@ module "cluster-workloads" {
   region              = var.region
   autoscaler_role_arn = module.cluster.cluster_autoscaler_role_arn
   csi_role_arn        = module.cluster.csi_role_arn
+  depends_on = [
+    module.nodes,
+  ]
 }

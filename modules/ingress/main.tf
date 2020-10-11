@@ -81,6 +81,14 @@ resource "aws_s3_bucket" "access_logs" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "access_logs" {
+  bucket                  = aws_s3_bucket.access_logs.bucket
+  block_public_acls       = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+  ignore_public_acls      = true
+}
+
 resource "aws_lb" "alb" {
   name               = "${var.name}-ingress"
   subnets            = var.vpc.public_subnets

@@ -194,8 +194,15 @@ data "aws_iam_policy_document" "autoscaling" {
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup",
     ]
-    resources = var.asg_arns
-    effect    = "Allow"
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceTag/k8s.io/cluster/${var.cluster_name}"
+      values = [
+        "owned",
+      ]
+    }
+    effect = "Allow"
   }
 }
 
