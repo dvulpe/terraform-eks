@@ -59,9 +59,9 @@ module "nodes" {
 module "cluster-workloads" {
   source              = "../cluster-workloads"
   cluster_name        = module.cluster.cluster.name
-  region              = var.region
-  autoscaler_role_arn = module.cluster.cluster_autoscaler_role_arn
   csi_role_arn        = module.cluster.csi_role_arn
+  variant             = var.variant
+  flux_repository_url = var.flux_repository_url
   depends_on = [
     module.nodes,
   ]

@@ -17,3 +17,7 @@ variable "tags" {
 variable "vpc_name" {
   type = string
 }
+
+variable "flux_repository_url" {
+  type = string
+}
