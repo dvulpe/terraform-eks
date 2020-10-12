@@ -4,8 +4,8 @@ module "ingress" {
   security_groups = module.security_groups.security_groups
   tags            = local.tags
   ingress_weights = {
-    blue  = 100
-    green = 0
+    blue  = 0
+    green = 100
   }
   vpc = module.vpc
 }

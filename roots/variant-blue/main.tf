@@ -1,15 +1,15 @@
 module "variant" {
-  source              = "../../modules/eks-variant"
-  vpc_name            = "k8s-variants"
-  name                = "eks-demo"
-  variant             = "blue"
-  region              = local.region
-  flux_repository_url = var.flux_repository_url
+  source            = "../../modules/eks-variant"
+  vpc_name          = "k8s-variants"
+  name              = "eks-demo"
+  variant           = "blue"
+  region            = local.region
+  github_repository = var.github_repository
   tags = {
     Environment = "k8s-variants"
   }
 }
 
-variable "flux_repository_url" {
+variable "github_repository" {
   type = string
 }

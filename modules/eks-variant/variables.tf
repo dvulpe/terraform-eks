@@ -18,6 +18,6 @@ variable "vpc_name" {
   type = string
 }
 
-variable "flux_repository_url" {
+variable "github_repository" {
   type = string
 }

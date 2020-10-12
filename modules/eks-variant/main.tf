@@ -56,12 +56,11 @@ module "nodes" {
   max_size         = 10
 }
 
-module "cluster-workloads" {
-  source              = "../cluster-workloads"
-  cluster_name        = module.cluster.cluster.name
-  csi_role_arn        = module.cluster.csi_role_arn
-  variant             = var.variant
-  flux_repository_url = var.flux_repository_url
+module "flux" {
+  source            = "../flux-bootstrap"
+  cluster_name      = module.cluster.cluster.name
+  variant           = var.variant
+  github_repository = var.github_repository
   depends_on = [
     module.nodes,
   ]

@@ -8,10 +8,10 @@ locals {
     }
 
     git = {
-      url    = var.flux_repository_url
-      path   = "kustomize/environments/variant-${var.variant}"
-      branch = "main"
-      label  = "flux-variant-${var.variant}"
+      url        = "git@github.com:dvulpe/${var.github_repository}.git"
+      path       = "kustomize/environments/variant-${var.variant}"
+      branch     = "main"
+      label      = "flux-variant-${var.variant}"
     }
 
     manifestGeneration = true
@@ -44,7 +44,7 @@ variable "cluster_name" {
   type = string
 }
 
-variable "flux_repository_url" {
+variable "github_repository" {
   type = string
 }
 
