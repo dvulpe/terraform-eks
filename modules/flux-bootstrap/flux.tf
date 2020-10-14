@@ -8,10 +8,10 @@ locals {
     }
 
     git = {
-      url        = "git@github.com:dvulpe/${var.github_repository}.git"
-      path       = "kustomize/environments/variant-${var.variant}"
-      branch     = "main"
-      label      = "flux-variant-${var.variant}"
+      url    = "git@github.com:dvulpe/${var.github_repository}.git"
+      path   = "kustomize/environments/variant-${var.variant}"
+      branch = "main"
+      label  = "flux-variant-${var.variant}"
     }
 
     manifestGeneration = true
