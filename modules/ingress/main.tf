@@ -88,7 +88,7 @@ resource "aws_s3_bucket_public_access_block" "access_logs" {
   restrict_public_buckets = true
   ignore_public_acls      = true
   depends_on = [
-    aws_s3_bucket_policy.policy.policy,
+    aws_s3_bucket_policy.policy,
   ]
 }
 
