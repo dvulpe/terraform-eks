@@ -21,3 +21,7 @@ variable "vpc_name" {
 variable "github_repository" {
   type = string
 }
+
+variable "github_organisation" {
+  type = string
+}

@@ -8,7 +8,7 @@ locals {
     }
 
     git = {
-      url    = "git@github.com:dvulpe/${var.github_repository}.git"
+      url    = "git@github.com:${var.github_organisation}/${var.github_repository}.git"
       path   = "kustomize/environments/variant-${var.variant}"
       branch = "main"
       label  = "flux-variant-${var.variant}"
@@ -48,6 +48,10 @@ variable "github_repository" {
   type = string
 }
 
+variable "github_organisation" {
+  type = string
+}
+
 resource "kubernetes_namespace" "flux" {
   metadata {
     name = "flux"
@@ -59,7 +63,7 @@ resource "helm_release" "flux" {
   name      = "flux"
   namespace = kubernetes_namespace.flux.metadata.0.name
 
-  wait = false
+  wait      = true
 
   values = [yamlencode(local.flux_values)]
 }

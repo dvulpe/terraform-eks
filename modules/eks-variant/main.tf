@@ -57,10 +57,11 @@ module "nodes" {
 }
 
 module "flux" {
-  source            = "../flux-bootstrap"
-  cluster_name      = module.cluster.cluster.name
-  variant           = var.variant
-  github_repository = var.github_repository
+  source              = "../flux-bootstrap"
+  cluster_name        = module.cluster.cluster.name
+  variant             = var.variant
+  github_repository   = var.github_repository
+  github_organisation = var.github_organisation
   depends_on = [
     module.nodes,
   ]

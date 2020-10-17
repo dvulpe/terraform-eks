@@ -7,7 +7,6 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
-  version                = "1.13.5"
 }
 
 provider "helm" {
@@ -17,5 +16,21 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.cluster.cluster.certificate_authority.0.data)
     token                  = data.aws_eks_cluster_auth.cluster.token
     load_config_file       = false
+  }
+}
+
+provider "flux" {
+  version                = "0.0.1"
+  host                   = module.cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(module.cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+}
+
+terraform {
+  required_providers {
+    flux = {
+      source  = "dvulpe/flux"
+      version = "0.0.1"
+    }
   }
 }

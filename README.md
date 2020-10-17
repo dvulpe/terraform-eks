@@ -18,7 +18,7 @@ Inside `modules` we have:
 * `node-group` - this module stands up a zonal autoscaling group with required node labels and taints using BottleRocket OS
 * `cluster-nodegroups` - this module defines the collection of node groups to be deployed in the cluster. 
 For example we have the worker node group and a monitoring node group registered with taints.
-* `cluster-workloads` a set of helm charts that should be created in every cluster - cluster-autoscaler, metrics server and podinfo
+* `cluster-workloads` a flux helm chart that should be created in every variant. It's going to point flux to use the manifests from [flux-variants](https://github.com/dvulpe/flux-variants/)
 * `eks-variant` - this module ties together the `eks-cluster` and the `cluster-nodegroups` module and expresses what a cluster variant looks like.
 * `ingress` defines the ingress Application Load Balancer and the two target groups: blue and green
 * `security-groups` defines all the security groups required in the VPC. They may be quite permissive as the focus was to 
