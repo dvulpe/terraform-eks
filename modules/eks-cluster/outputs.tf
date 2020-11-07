@@ -13,3 +13,10 @@ output "cluster_autoscaler_role_arn" {
 output "csi_role_arn" {
   value = aws_iam_role.csi.arn
 }
+
+output "oidc" {
+  value = {
+    issuer       = replace(aws_iam_openid_connect_provider.eks_oidc.url, "https://", "")
+    provider_arn = aws_iam_openid_connect_provider.eks_oidc.arn
+  }
+}

@@ -11,6 +11,10 @@ module "variant" {
   }
 }
 
+output "oidc" {
+  value = module.variant.oidc
+}
+
 variable "github_repository" {
   type = string
 }
